@@ -26,8 +26,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-import javax.annotation.Nonnull;
-
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
@@ -39,6 +37,7 @@ import org.apache.sling.jobs.JobCallback;
 import org.apache.sling.jobs.JobConsumer;
 import org.apache.sling.jobs.JobUpdate;
 import org.apache.sling.jobs.JobUpdateListener;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -121,9 +120,9 @@ public class AsyncJobConsumer implements JobConsumer {
         executor.shutdown();
     }
 
-    @Nonnull
+    @NotNull
     @Override
-    public void execute(@Nonnull final Job initialState, @Nonnull final JobUpdateListener listener, @Nonnull final JobCallback callback) {
+    public void execute(@NotNull final Job initialState, @NotNull final JobUpdateListener listener, @NotNull final JobCallback callback) {
         LOGGER.info("Got request to start job {} ", initialState);
         initialState.setState(Job.JobState.QUEUED);
         listener.update(initialState.newJobUpdateBuilder().command(JobUpdate.JobUpdateCommand.UPDATE_JOB).put("processing", "step1").build());
